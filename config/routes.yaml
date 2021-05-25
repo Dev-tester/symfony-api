@@ -1,3 +1,54 @@
-#index:
-#    path: /
-#    controller: App\Controller\DefaultController::index
+account_list:
+  path: /api/v1/accounts
+  controller: App\Controller\AccountController::indexAction
+  methods: [GET]
+
+account_create:
+  path: /api/v1/account
+  controller: App\Controller\AccountController::createAction
+  methods: [POST]
+
+account_update:
+  path: /api/v1/account/{aid}
+  controller: App\Controller\AccountController::updateAction
+  methods: [PATCH]
+  requirements:
+    cid: '\d+'
+
+account_delete:
+  path: /api/v1/account/{aid}
+  controller: App\Controller\AccountController::deleteAction
+  methods: [DELETE]
+  requirements:
+    id: '\d+'
+
+records_list:
+  path: /api/v1/account/{id}/records
+  controller: App\Controller\DNSRecordController::indexAction
+  methods: [GET]
+
+records_stat:
+  path: /api/v1/account/{id}/stat
+  controller: App\Controller\DNSRecordController::statAction
+  methods: [GET]
+
+record_create:
+  path: /api/v1/account/{aid}/record
+  controller: App\Controller\DNSRecordController::createAction
+  methods: [POST]
+
+record_update:
+  path: /api/v1/account/{id}/record/{rid}
+  controller: App\Controller\DNSRecordController::updateAction
+  methods: [PATCH]
+  requirements:
+    id: '\d+'
+    rid: '\d+'
+
+record_delete:
+  path: /api/v1/account/{id}/record/{rid}
+  controller: App\Controller\DNSRecordController::deleteAction
+  methods: [DELETE]
+  requirements:
+    id: '\d+'
+    rid: '\d+'
