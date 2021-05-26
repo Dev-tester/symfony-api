@@ -11,12 +11,26 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class DNSRecordController extends ApiController
 {
+	/**
+	 * Возвращает список DNS-записей клиента
+	 *
+	 * @Route("/api/v1/account/{id}/records", methods={"GET"})
+	 * @param Request $request экземпляр HTTP запроса
+	 * @return object экземпляр ответа (список DNS-записей)
+	 */
 	public function indexAction(Request $request): Response
 	{
 		$DNSRecords = $this->getDoctrine()->getRepository(DNSRecord::class)->findAll();
 		return $this->respond($DNSRecords);
 	}
 
+	/**
+	 * Возвращает статистику использования аккаунтов клиентов
+	 *
+	 * @Route("/api/v1/account/{id}/stat", methods={"GET"})
+	 * @param Request $request экземпляр HTTP запроса
+	 * @return object экземпляр ответа (список аккаунтов)
+	 */
 	public function statAction(Request $request): Response
 	{
 		$conn = $this->getDoctrine()->getRepository(DNSRecord::class)->getConnection();
@@ -59,6 +73,23 @@ class DNSRecordController extends ApiController
 		return $this->respond($DNSRecords);
 	}
 
+	/**
+	 * Создаёт новую DNS-запись клиента
+	 *
+	 *  Если не установлен friendsofsymfony/rest-bundle
+		необходимо перед $form->handleRequest($request); добавить блок кода
+
+		$data = $request->toArray();
+		$request->request->set('code',$data['code']);
+		$request->request->set('title',$data['title']);
+		$request->request->set('price',$data['price']);
+
+		чтобы корректно заполнялась форма <- request (content-type=application/json)
+	 *
+	 * @Route("/api/v1/account/{aid}/record", methods={"POST"})
+	 * @param Request $request HTTP запрос
+	 * @return object экземпляр ответа (созданная DNS-запись)
+	 */
 	public function createAction(Request $request): Response
 	{
 		$accountId = $request->get('aid');
@@ -72,15 +103,6 @@ class DNSRecordController extends ApiController
 		}
 
 		$form = $this->buildForm(DNSRecordType::class);
-
-		/*
-		 блок необходим чтобы корректно заполнялась форма из request если content-type=application/json
-		 заменяется установкой friendsofsymfony/rest-bundle
-		 $data = $request->toArray();
-		 $request->request->set('code',$data['code']);
-		 $request->request->set('title',$data['title']);
-		 $request->request->set('price',$data['price']);
-		*/
 
 		$form->handleRequest($request);
 
@@ -98,6 +120,16 @@ class DNSRecordController extends ApiController
 		return $this->respond($DNSRecord);
 	}
 
+	/**
+	 * Обновляет DNS-запись клиента
+	 *
+	 * @Route("/api/v1/account/{id}/record/{rid}", methods={"PATCH"})
+	 * @param Request $request HTTP запрос
+	 *
+	 * @throws NotFoundHttpException
+	 *
+	 * @return object экземпляр ответа (обновлённая DNS-запись)
+	 */
 	public function updateAction(Request $request): Response
 	{
 		$recordId = $request->get('rid');
@@ -129,6 +161,16 @@ class DNSRecordController extends ApiController
 		return $this->respond($DNSRecord);
 	}
 
+	/**
+	 * Удаляет DNS-запись
+	 *
+	 * @Route("/api/v1/account/{id}/record/{rid}", methods={"DELETE"})
+	 * @param Request $request HTTP запрос
+	 *
+	 * @throws NotFoundHttpException
+	 *
+	 * @return Response экземпляр ответа (удалённая DNS-запись)
+	 */
 	public function deleteAction(Request $request): Response
 	{
 		$recordId = $request->get('id');

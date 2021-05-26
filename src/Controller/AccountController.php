@@ -10,23 +10,38 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class AccountController extends ApiController
 {
+	/**
+	 * Возвращает список зарегистрированных аккаунтов
+	 *
+	 * @Route("/api/v1/accounts", methods={"GET"})
+	 * @param Request $request экземпляр HTTP запроса
+	 * @return object экземпляр ответа (список аккаунтов)
+	 */
 	public function indexAction(Request $request): Response
 	{
 		$Accounts = $this->getDoctrine()->getRepository(Account::class)->findAll();
 		return $this->respond($Accounts);
 	}
 
+	/**
+	 * Создаёт новый аккаунт
+	 *
+	 *  Если не установлен friendsofsymfony/rest-bundle
+	    необходимо перед $form->handleRequest($request); добавить блок кода
+
+	  	$data = $request->toArray();
+		$request->request->set('email',$data['email']);
+		$request->request->set('phone',$data['phone']);
+
+	  	чтобы корректно заполнялась форма <- request (content-type=application/json)
+	 *
+	 * @Route("/api/v1/accounts", methods={"POST"})
+	 * @param Request $request HTTP запрос
+	 * @return object экземпляр ответа (созданный аккаунт)
+	 */
 	public function createAction(Request $request): Response
 	{
 		$form = $this->buildForm(AccountType::class);
-
-		/*
-		 блок необходим чтобы корректно заполнялась форма из request если content-type=application/json
-		 заменяется установкой friendsofsymfony/rest-bundle
-		 $data = $request->toArray();
-		 $request->request->set('email',$data['email']);
-		 $request->request->set('phone',$data['phone']);
-		*/
 
 		$form->handleRequest($request);
 
@@ -43,6 +58,16 @@ class AccountController extends ApiController
 		return $this->respond($account);
 	}
 
+	/**
+	 * Обновляет аккаунт клиента
+	 *
+	 * @Route("/api/v1/account/{aid}", methods={"PATCH"})
+	 * @param Request $request HTTP запрос
+	 *
+	 * @throws NotFoundHttpException
+	 *
+	 * @return object экземпляр ответа (обновлённый аккаунт)
+	 */
 	public function updateAction(Request $request): Response
 	{
 		$accountId = $request->get('aid');
@@ -76,6 +101,16 @@ class AccountController extends ApiController
 		return $this->respond($account);
 	}
 
+	/**
+	 * Удаляет аккаунт клиента
+	 *
+	 * @Route("/api/v1/account/{aid}", methods={"DELETE"})
+	 * @param Request $request HTTP запрос
+	 *
+	 * @throws NotFoundHttpException
+	 *
+	 * @return Response экземпляр ответа (удалённый аккаунт)
+	 */
 	public function deleteAction(Request $request): Response
 	{
 		$AccountId = $request->get('aid');
