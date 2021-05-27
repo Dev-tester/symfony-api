@@ -14,7 +14,6 @@ class DNSRecordController extends ApiController
 	/**
 	 * Возвращает список DNS-записей клиента
 	 *
-	 * @Route("/api/v1/account/{id}/records", methods={"GET"})
 	 * @param Request $request экземпляр HTTP запроса
 	 * @return object экземпляр ответа (список DNS-записей)
 	 */
@@ -27,7 +26,6 @@ class DNSRecordController extends ApiController
 	/**
 	 * Возвращает статистику использования аккаунтов клиентов
 	 *
-	 * @Route("/api/v1/account/{id}/stat", methods={"GET"})
 	 * @param Request $request экземпляр HTTP запроса
 	 * @return object экземпляр ответа (список аккаунтов)
 	 */
@@ -86,7 +84,6 @@ class DNSRecordController extends ApiController
 
 		чтобы корректно заполнялась форма <- request (content-type=application/json)
 	 *
-	 * @Route("/api/v1/account/{aid}/record", methods={"POST"})
 	 * @param Request $request HTTP запрос
 	 * @return object экземпляр ответа (созданная DNS-запись)
 	 */
@@ -123,7 +120,6 @@ class DNSRecordController extends ApiController
 	/**
 	 * Обновляет DNS-запись клиента
 	 *
-	 * @Route("/api/v1/account/{id}/record/{rid}", methods={"PATCH"})
 	 * @param Request $request HTTP запрос
 	 *
 	 * @throws NotFoundHttpException
@@ -164,7 +160,6 @@ class DNSRecordController extends ApiController
 	/**
 	 * Удаляет DNS-запись
 	 *
-	 * @Route("/api/v1/account/{id}/record/{rid}", methods={"DELETE"})
 	 * @param Request $request HTTP запрос
 	 *
 	 * @throws NotFoundHttpException

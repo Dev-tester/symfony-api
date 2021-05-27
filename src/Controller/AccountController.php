@@ -13,7 +13,6 @@ class AccountController extends ApiController
 	/**
 	 * Возвращает список зарегистрированных аккаунтов
 	 *
-	 * @Route("/api/v1/accounts", methods={"GET"})
 	 * @param Request $request экземпляр HTTP запроса
 	 * @return object экземпляр ответа (список аккаунтов)
 	 */
@@ -35,7 +34,6 @@ class AccountController extends ApiController
 
 	  	чтобы корректно заполнялась форма <- request (content-type=application/json)
 	 *
-	 * @Route("/api/v1/accounts", methods={"POST"})
 	 * @param Request $request HTTP запрос
 	 * @return object экземпляр ответа (созданный аккаунт)
 	 */
@@ -61,7 +59,6 @@ class AccountController extends ApiController
 	/**
 	 * Обновляет аккаунт клиента
 	 *
-	 * @Route("/api/v1/account/{aid}", methods={"PATCH"})
 	 * @param Request $request HTTP запрос
 	 *
 	 * @throws NotFoundHttpException
@@ -104,7 +101,6 @@ class AccountController extends ApiController
 	/**
 	 * Удаляет аккаунт клиента
 	 *
-	 * @Route("/api/v1/account/{aid}", methods={"DELETE"})
 	 * @param Request $request HTTP запрос
 	 *
 	 * @throws NotFoundHttpException
